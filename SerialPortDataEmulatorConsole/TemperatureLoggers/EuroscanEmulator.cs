@@ -80,19 +80,20 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                     // serial nr on tk
                     return "serial-nr\r";
 
+                    // NB fixed width integer? 
                 case "M1\r":
-                    return "M1 -1.8,1111\r";
+                    return "M1  19.4,0000\r";
                 case "M2\r":
-                    return "M2 -2.8,1111\r";
+                    return "M2   0.0,0000\r";
                 case "M3\r":
-                    return "M3 -3.8,1111\r";
+                    return "M3   1.0,0000\r";
                 case "M4\r":
-                    return "M4 -4.8,1111\r";
+                    return "M4   3.0,0000\r";
                 case "M5\r":
-                    return "M5 -5.8,1111\r";
+                    return "M5   3.0,0000\r";
                 case "M6\r":
                     // input not enabled (temp = 0.00)
-                    return "M6 0.00,1111\r";
+                    return "M6   0.0,0000\r";
 
                 default:
                     Console.WriteLine($"unknown request: {command}");
