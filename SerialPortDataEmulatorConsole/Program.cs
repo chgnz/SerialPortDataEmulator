@@ -59,12 +59,33 @@ namespace SerialPortDataEmulatorConsole
                     return;
             }
 
-            SerialPort sp = new SerialPort("COM3");
+            SerialPort sp = new SerialPort("COM7");
 
             protocol.Init(sp);
 
-            while (!Console.KeyAvailable)
+            while (true)
             {
+                if (Console.KeyAvailable)
+                {
+                    if (Console.ReadKey().Key == ConsoleKey.Escape)
+                    {
+                        Console.WriteLine("Esc pressed, close app");
+                        Thread.Sleep(2000);
+                        break;
+                    }
+
+                    if (Console.ReadKey().Key == ConsoleKey.Spacebar)
+                    {
+                        Console.WriteLine("Space pressed, send random data");
+                        sp.Write("M6   0.0,0000\r");
+                        continue;
+                    }
+
+                    //ignore other keys
+                    Console.ReadKey();
+
+                }
+
                 protocol.Trigger();
                 Thread.Sleep(1);
             }
