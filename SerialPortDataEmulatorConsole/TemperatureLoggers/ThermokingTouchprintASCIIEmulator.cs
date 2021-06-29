@@ -78,17 +78,17 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                     return "serial-nr\r";
 
                 case "m1\r":
-                    return "m1 -1.8,1111\r";
+                    return "m1 -1.1,1111\r";
                 case "m2\r":
-                    return "m2 -2.8,1111\r";
+                    return "m2 -2.2,1111\r";
                 case "m3\r":
-                    return "m3 -3.8,1111\r";
+                    return "m3 -3.3,1111\r";
                 case "m4\r":
-                    return "m4 -4.8,1111\r";
+                    return "m4 -4.4,1111\r";
                 case "m5\r":
-                    return "m5 -5.8,1111\r";
+                    return "m5 -5.5,1111\r";
                 case "m6\r":
-                    return "m6 -5.8,1111\r";
+                    return "m6 -6.6,1111\r";
 
                 default:
                     Console.WriteLine($"unknown request: {command}");
