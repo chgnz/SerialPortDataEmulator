@@ -56,6 +56,8 @@
     <Compile Include="CarrierGateway\CarrierGatewayEmulator.cs" />
     <Compile Include="FuelSensors\DUTEmulator.cs" />
     <Compile Include="ISerialEmulator.cs" />
+    <Compile Include="SecureSeal\SecureSeal.cs" />
+    <Compile Include="UDS\UDSEmulator.cs" />
     <Compile Include="TemperatureLoggers\ThermokingTouchprintASCIIEmulator.cs" />
     <Compile Include="TemperatureLoggers\EuroscanEmulator.cs" />
     <Compile Include="Tachograph\StoneridgeEmulator.cs" />

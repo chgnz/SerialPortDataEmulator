@@ -53,13 +53,21 @@ namespace SerialPortDataEmulatorConsole
                     protocol = new ThermokingTouchprintASCIIEmulator();
                     break;
 
+                case SerialProtocol.SecureSeal:
+                    protocol = new SecureSeal();
+                    break;
+
+                case SerialProtocol.UDSRequest:
+                    protocol = new UDSEmulator();
+                    break;
+
                 default:
                     Console.WriteLine("incorect protocol selected, close app");
                     Console.ReadKey();
                     return;
             }
 
-            SerialPort sp = new SerialPort("COM7");
+            SerialPort sp = new SerialPort("COM26");
 
             protocol.Init(sp);
 
@@ -76,8 +84,6 @@ namespace SerialPortDataEmulatorConsole
 
                     if (Console.ReadKey().Key == ConsoleKey.Spacebar)
                     {
-                        Console.WriteLine("Space pressed, send random data");
-                        sp.Write("M6   0.0,0000\r");
                         continue;
                     }
 
@@ -104,6 +110,9 @@ namespace SerialPortDataEmulatorConsole
             Console.WriteLine("7. Carrier Direct (Request-Response protocol @ baudrate 9600)");
             Console.WriteLine("8. Euroscan MX Series (Request-Response ASCII protocol @ baudrate 9600)");
             Console.WriteLine("9. Thermoking Touchprint (Request-Response ASCII protocol @ baudrate 9600)");
+            Console.WriteLine("10. secureseal?");
+            Console.WriteLine("11. UDSRequest, hack, to test tacho params?");
+            
         }
 
         public enum SerialProtocol
@@ -117,6 +126,8 @@ namespace SerialPortDataEmulatorConsole
             CarrierDirectProtocol,
             EuroscanProtocol,
             ThermokingTouchprintASCII,
+            SecureSeal,
+            UDSRequest,
 
             UnknownProtocol,
         };
