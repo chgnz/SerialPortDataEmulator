@@ -83,5 +83,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return 1000;
         }
+
+        public string GetMenuString()
+        {
+            return "set Menu entry which will be displayed on app startup";
+        }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SerialPortDataEmulatorConsole.SerialProtocols
 {
-    class EuroscanEmulator : ISerialEmulator
+    class ThermokingTouchprintASCIIEmulator : ISerialEmulator
     {
         private SerialPort Port;
 
@@ -20,7 +20,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             this.Port.BaudRate = GetBaudrate();
             this.Port.Open();
 
-            Console.WriteLine($"Euroscan Emulator Initialized. {port.PortName}, Baudrate: {GetBaudrate()}");
+            Console.WriteLine($"Thermoking Touchprint ASCII Emulator Initialized. {port.PortName}, Baudrate: {GetBaudrate()}");
         }
 
         public void Trigger()
@@ -73,27 +73,22 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             switch (command)
             {
-                case "?\r":
-                    //  fw version
-                    return "TMS V1.63\r";
                 case "i\r":
                     // serial nr on tk
                     return "serial-nr\r";
 
-                    // NB fixed width integer? 
-                case "M1\r":
-                    return "M1  19.4,0000\r";
-                case "M2\r":
-                    return "M2   0.0,0000\r";
-                case "M3\r":
-                    return "M3   1.0,0000\r";
-                case "M4\r":
-                    return "M4   3.0,0000\r";
-                case "M5\r":
-                    return "M5   3.0,0000\r";
-                case "M6\r":
-                    // input not enabled (temp = 0.00)
-                    return "M6   0.0,0000\r";
+                case "m1\r":
+                    return "m1 -1.1,1111\r";
+                case "m2\r":
+                    return "m2 -2.2,1111\r";
+                case "m3\r":
+                    return "m3 -3.3,1111\r";
+                case "m4\r":
+                    return "m4 -4.4,1111\r";
+                case "m5\r":
+                    return "m5 -5.5,1111\r";
+                case "m6\r":
+                    return "m6 -6.6,1111\r";
 
                 default:
                     Console.WriteLine($"unknown request: {command}");
@@ -120,6 +115,11 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         private int GetBaudrate()
         {
             return 9600;
+        }
+
+        public string GetMenuString()
+        {
+            return "Thermoking Touchprint (Request-Response ASCII protocol @ baudrate 9600)";
         }
     }
 }

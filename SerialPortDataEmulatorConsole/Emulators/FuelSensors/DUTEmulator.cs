@@ -203,10 +203,16 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             return false;
         }
+
+        virtual public string GetMenuString()
+        {
+            return "DUT FuelSensor (Request-Response protocol @ baudrate 19200), implemented commands: 0x02, 0x06, 0x1c, 0x23";
+        }
     }
 
     class EpsilonESEmulator : DUTEmulator
     {
+
         override protected byte[] GenerateResponseWithoutCRC(byte command)
         {
             switch (command)
@@ -218,6 +224,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 default:
                     return null;
             }
+        }
+        override public string GetMenuString()
+        {
+            return "Epsilon ES FuelSensor (Request-Response protocol @ baudrate 19200), implemented commands: 0x06";
         }
     }
 }

@@ -152,5 +152,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return 250;
         }
+
+        public string GetMenuString()
+        {
+            return "UDSRequest, hack, to test tacho params?";
+        }
     }
 }

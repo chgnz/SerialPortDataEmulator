@@ -169,5 +169,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return (byte)new Random().Next(0, 255);
         }
+
+        public string GetMenuString()
+        {
+            return "Carrier Direct (Request-Response protocol @ baudrate 9600)";
+        }
     }
 }

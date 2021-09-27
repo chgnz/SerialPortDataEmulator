@@ -44,27 +44,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CarrierDirect\CarrierDirectMessage.cs" />
-    <Compile Include="Lumikko\LumikkoMessage.cs" />
+    <Compile Include="Emulators\CarrierDirect\CarrierDirectMessage.cs" />
+    <Compile Include="Emulators\EmulatorFactory.cs" />
+    <Compile Include="Emulators\TVG\TvgGritterEmulator.cs" />
+    <Compile Include="Emulators\TVG\TvgGritterMessage.cs" />
+    <Compile Include="Emulators\VEI Millennium5\Millennium5Emulator.cs" />
+    <Compile Include="Emulators\Lumikko\LumikkoMessage.cs" />
     <Compile Include="Helpers\DallasCRC.cs" />
-    <Compile Include="CarrierGateway\CarrierGatewayMessage.cs" />
-    <Compile Include="FuelSensors\DutMessage.cs" />
+    <Compile Include="Emulators\CarrierGateway\CarrierGatewayMessage.cs" />
+    <Compile Include="Emulators\FuelSensors\DutMessage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CarrierDirect\CarrierDirectEmulator.cs" />
-    <Compile Include="Lumikko\LumikkoEmulator.cs" />
-    <Compile Include="CarrierGateway\CarrierGatewayEmulator.cs" />
-    <Compile Include="FuelSensors\DUTEmulator.cs" />
-    <Compile Include="ISerialEmulator.cs" />
-    <Compile Include="SecureSeal\SecureSeal.cs" />
-    <Compile Include="TVG\TvgGritterEmulator.cs" />
-    <Compile Include="TVG\TvgGritterMessage.cs" />
-    <Compile Include="UDS\UDSEmulator.cs" />
-    <Compile Include="TemperatureLoggers\ThermokingTouchprintASCIIEmulator.cs" />
-    <Compile Include="TemperatureLoggers\EuroscanEmulator.cs" />
-    <Compile Include="Tachograph\StoneridgeEmulator.cs" />
-    <Compile Include="Template.cs" />
-    <Compile Include="Tachograph\SiemensVDOEmulator.cs" />
+    <Compile Include="Emulators\CarrierDirect\CarrierDirectEmulator.cs" />
+    <Compile Include="Emulators\Lumikko\LumikkoEmulator.cs" />
+    <Compile Include="Emulators\CarrierGateway\CarrierGatewayEmulator.cs" />
+    <Compile Include="Emulators\FuelSensors\DUTEmulator.cs" />
+    <Compile Include="Emulators\ISerialEmulator.cs" />
+    <Compile Include="Emulators\SecureSeal\SecureSeal.cs" />
+    <Compile Include="Emulators\UDS\UDSEmulator.cs" />
+    <Compile Include="Emulators\TemperatureLoggers\ThermokingTouchprintASCIIEmulator.cs" />
+    <Compile Include="Emulators\TemperatureLoggers\EuroscanEmulator.cs" />
+    <Compile Include="Emulators\Tachograph\StoneridgeEmulator.cs" />
+    <Compile Include="Emulators\Template.cs" />
+    <Compile Include="Emulators\Tachograph\SiemensVDOEmulator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

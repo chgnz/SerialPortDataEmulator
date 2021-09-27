@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SerialPortDataEmulatorConsole.SerialProtocols
 {
-    class SecureSeal : ISerialEmulator
+    class Millennium5Emulator : ISerialEmulator
     {
         // Msg to send
-        private readonly byte[][] msg = new byte[][] {
-            new byte[] {0x88, 0x00, 0x00, 0xa6, 0x16, 0x00, 0x00, 0x2b, 0xb6, 0x8e, 0x48 },
-            };
+        private readonly string[] VEIMillennium5_MSG = new string[] {
+            "$P01|M5G|0020|170321121509|||||65535|0767083655|0C8B}",
+            "$P01|M5G|0018|170321121617||00000380|00001|TEST|MONEY||||A7||65535|0767083655|1536}",
+            "$P01|M5G|0018|170321121631||00000380|00001|TEST|MONEY||||A7||65535|0767083655|1532}",
+            "$P01|M5G|0018|170321121647||00000380|00001|TEST|MONEY||||A7||65535|0767083655|1539}"
+          };
 
         // interval settings
         private UInt32 TxInterval;
@@ -17,7 +25,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
         // private vars
         private long Timestamp;
-        private uint SecureSealMsgIndex;
+        private uint MsgIndex;
 
         public void Init(SerialPort port)
         {
@@ -28,7 +36,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             this.Port.Open();
 
-            Console.WriteLine($"Secure Seal. {port.PortName}, Baudrate: {GetBaudrate()}, Tx interval: {GetTxInterval()} ms");
+            Console.WriteLine($"VEI Millennium Emulator Initialized. {port.PortName}, Baudrate: {GetBaudrate()}, Tx interval: {GetTxInterval()} ms");
 
             Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
         }
@@ -53,11 +61,12 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             {
                 return false;
             }
-            Console.WriteLine($"SecureSeal Emulator Send: {BitConverter.ToString(msg[SecureSealMsgIndex]).Replace("-","")}");
 
-            Port.Write(msg[SecureSealMsgIndex], 0, msg[SecureSealMsgIndex].Length);
-            SecureSealMsgIndex++;
-            SecureSealMsgIndex = (uint)(SecureSealMsgIndex % msg.Count());
+            Console.WriteLine($"VEI MIllennium5 Emulator Send: {VEIMillennium5_MSG[MsgIndex]}");
+
+            Port.Write(ASCIIEncoding.ASCII.GetBytes(VEIMillennium5_MSG[MsgIndex]), 0, VEIMillennium5_MSG[MsgIndex].Length);
+            MsgIndex++;
+            MsgIndex = (uint)(MsgIndex % VEIMillennium5_MSG.Count());
 
             return true;
         }
@@ -74,7 +83,12 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
         private UInt32 GetTxInterval()
         {
-            return 1000;
+            return 10000;
+        }
+
+        public string GetMenuString()
+        {
+            return $"Emulate VEI protocol by sending messages, with {GetTxInterval()} ms intervals @ {GetBaudrate()} baud";
         }
     }
 }

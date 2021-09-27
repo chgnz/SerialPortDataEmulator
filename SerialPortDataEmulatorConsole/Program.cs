@@ -9,71 +9,32 @@ namespace SerialPortDataEmulatorConsole
 {
     class Program
     {
+        static ISerialEmulator emulator;
+
         static void Main(string[] args)
         {
-            ISerialEmulator protocol;
+            // show menu with available serial emulators
+            DisplayMenu(EmulatorFactory.BuildInfoMenu());
 
-            DisplayMenu();
-
-            switch (ReadSelectedProtocol())
+            try
             {
-                case SerialProtocol.SREProtocol:
-                    protocol = new StoneridgeEmulator();
-                    break;
+                // read selected index and set emulator. throws exception if invalid emulator selected
+                emulator = SelectedEmulator();
 
-                case SerialProtocol.VDOProtocol:
-                    protocol = new SiemensVDOEmulator();
-                    break;
+                string[] ports = (string[])SerialPort.GetPortNames().Clone();
 
-                case SerialProtocol.DUTProtocol:
-                    protocol = new DUTEmulator();
-                    break;
+                // show all available Serial ports. throws exception if no serial ports are found
+                ShowAvailableComportMenu(ports);
 
-                case SerialProtocol.EpsilonESProtocol:
-                    protocol = new EpsilonESEmulator();
-                    break;
+                // select serial port based on user entry, throws exception if invalid port selected
+                SerialPort serialport = SelectedSerialPort(ports);
 
-                case SerialProtocol.CarrierGatewayProtocol:
-                    protocol = new CarrierGatewayEmulator();
-                    break;
-
-                case SerialProtocol.LumikkoProtocol:
-                    protocol = new LumikkoEmulator();
-                    break;
-
-                case SerialProtocol.CarrierDirectProtocol:
-                    protocol = new CarrierDirectEmulator();
-                    break;
-
-                case SerialProtocol.EuroscanProtocol:
-                    protocol = new EuroscanEmulator();
-                    break;
-
-                case SerialProtocol.ThermokingTouchprintASCII:
-                    protocol = new ThermokingTouchprintASCIIEmulator();
-                    break;
-
-                case SerialProtocol.SecureSeal:
-                    protocol = new SecureSeal();
-                    break;
-
-                case SerialProtocol.UDSRequest:
-                    protocol = new UDSEmulator();
-                    break;
-
-                case SerialProtocol.TVGGritter:
-                    protocol = new TvgGritterEmulator();
-                    break;
-
-                default:
-                    Console.WriteLine("incorect protocol selected, close app");
-                    Console.ReadKey();
-                    return;
+                emulator.Init(serialport);
             }
-
-            SerialPort sp = new SerialPort("COM4");
-
-            protocol.Init(sp);
+            catch (Exception ex)
+            {
+                CloseApp($"{ex.Message} Press any key to close application");
+            }
 
             while (true)
             {
@@ -96,64 +57,63 @@ namespace SerialPortDataEmulatorConsole
 
                 }
 
-                protocol.Trigger();
+                emulator.Trigger();
                 Thread.Sleep(1);
             }
         }
 
-        static public void DisplayMenu()
+        static public void DisplayMenu(string MenuText)
         {
-            Console.WriteLine("Select Serial Protocol");
-            Console.WriteLine();
-            Console.WriteLine("1. Stoneridge SRE (automatically transmits SRE data each 500ms @ baudrate 1200)");
-            Console.WriteLine("2. Siemens VDO (automatically transmits VDO data each 1000ms @ baudrate 10400)");
-            Console.WriteLine("3. DUT FuelSensor (Request-Response protocol @ baudrate 19200), implemented commands: 0x02, 0x06, 0x1c, 0x23");
-            Console.WriteLine("4. Epsilon ES FuelSensor (Request-Response protocol @ baudrate 19200), implemented commands: 0x06");
-            Console.WriteLine("5. Carrier gateway (Request-Response protocol @ baudrate 38400)");
-            Console.WriteLine("6. Lumikko (Request-Response protocol @ baudrate 9600)");
-            Console.WriteLine("7. Carrier Direct (Request-Response protocol @ baudrate 9600)");
-            Console.WriteLine("8. Euroscan MX Series (Request-Response ASCII protocol @ baudrate 9600)");
-            Console.WriteLine("9. Thermoking Touchprint (Request-Response ASCII protocol @ baudrate 9600)");
-            Console.WriteLine("10. secureseal?");
-            Console.WriteLine("11. UDSRequest, hack, to test tacho params?");
-            Console.WriteLine("12. TVG gritter (automatically transmits each 1000ms @ baudrate 9600)");
-
+            Console.Write(MenuText);
         }
 
-        public enum SerialProtocol
-        {
-            SREProtocol = 1,
-            VDOProtocol,
-            DUTProtocol,
-            EpsilonESProtocol,
-            CarrierGatewayProtocol,
-            LumikkoProtocol,
-            CarrierDirectProtocol,
-            EuroscanProtocol,
-            ThermokingTouchprintASCII,
-            SecureSeal,
-            UDSRequest,
-            TVGGritter,
-
-            UnknownProtocol,
-        };
-
-        static SerialProtocol ReadSelectedProtocol()
+        static ISerialEmulator SelectedEmulator()
         {
             string selectedIndexString = Console.ReadLine();
             int selectedValue = -1;
 
             Int32.TryParse(selectedIndexString, out selectedValue);
 
-            if (selectedValue < (int)SerialProtocol.SREProtocol ||
-                selectedValue >= (int)SerialProtocol.UnknownProtocol)
+            return EmulatorFactory.Build(selectedValue);
+        }
+
+        static void ShowAvailableComportMenu(string[] ports) 
+        {
+
+            if (ports.Length == 0)
             {
-                return SerialProtocol.UnknownProtocol;
+                throw new SystemException("Can't find any serial port");
             }
-            else
+
+            Console.WriteLine($"Select serial port! (Use index instead of full portname)");
+
+            for (int i = 0; i < ports.Length; i++)
             {
-                return (SerialProtocol)selectedValue;
+                Console.WriteLine($"{i+1}. {ports[i]}");
             }
+        }
+        static SerialPort SelectedSerialPort(string[] ports)
+        {
+            string selectedIndexString = Console.ReadLine();
+            int selectedValue = -1;
+
+            Int32.TryParse(selectedIndexString, out selectedValue);
+
+            if (selectedValue < 1 || selectedValue > ports.Length) {
+                throw new Exception("Error: Invalid serial port index used");
+            }
+
+            // NB! Indexes shown in user menu, are different with ports array indexes!.
+            // UI shows indexes started from 1 instead of 0; thus using '-1';
+            return new SerialPort(ports[selectedValue - 1]);
+        }
+
+
+        static void CloseApp(string exit_info)
+        {
+            Console.WriteLine(exit_info);
+            Console.ReadKey();
+            Environment.Exit(1);// exit
         }
     }
 }

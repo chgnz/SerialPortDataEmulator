@@ -223,5 +223,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return 1000;
         }
+
+        public string GetMenuString()
+        {
+            return "TVG gritter(automatically transmits each 1000ms @ baudrate 9600)";
+        }
     }
 }

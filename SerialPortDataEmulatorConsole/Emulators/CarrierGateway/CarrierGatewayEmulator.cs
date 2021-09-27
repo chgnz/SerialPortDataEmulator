@@ -177,5 +177,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return 38400;
         }
+
+        public string GetMenuString()
+        {
+            return "Carrier gateway (Request-Response protocol @ baudrate 38400)";
+        }
     }
 }
