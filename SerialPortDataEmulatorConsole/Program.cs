@@ -14,7 +14,7 @@ namespace SerialPortDataEmulatorConsole
             ISerialEmulator protocol;
 
             DisplayMenu();
-            
+
             switch (ReadSelectedProtocol())
             {
                 case SerialProtocol.SREProtocol:
@@ -61,13 +61,17 @@ namespace SerialPortDataEmulatorConsole
                     protocol = new UDSEmulator();
                     break;
 
+                case SerialProtocol.TVGGritter:
+                    protocol = new TvgGritterEmulator();
+                    break;
+
                 default:
                     Console.WriteLine("incorect protocol selected, close app");
                     Console.ReadKey();
                     return;
             }
 
-            SerialPort sp = new SerialPort("COM26");
+            SerialPort sp = new SerialPort("COM4");
 
             protocol.Init(sp);
 
@@ -112,7 +116,8 @@ namespace SerialPortDataEmulatorConsole
             Console.WriteLine("9. Thermoking Touchprint (Request-Response ASCII protocol @ baudrate 9600)");
             Console.WriteLine("10. secureseal?");
             Console.WriteLine("11. UDSRequest, hack, to test tacho params?");
-            
+            Console.WriteLine("12. TVG gritter (automatically transmits each 1000ms @ baudrate 9600)");
+
         }
 
         public enum SerialProtocol
@@ -128,6 +133,7 @@ namespace SerialPortDataEmulatorConsole
             ThermokingTouchprintASCII,
             SecureSeal,
             UDSRequest,
+            TVGGritter,
 
             UnknownProtocol,
         };
