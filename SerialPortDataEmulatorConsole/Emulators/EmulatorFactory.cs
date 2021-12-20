@@ -19,7 +19,8 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             UDSRequest,
             VEIMillennium,
             TVGGritter,
-            DignitaSerialDemo,
+            // DignitaSerialDemo,
+            Trailoader,
 
             UnknownProtocol,
         };
@@ -33,7 +34,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                     return new StoneridgeEmulator();
 
                 case SerialProtocol.VDOProtocol:
-                    return new SiemensVDOEmulator(); 
+                    return new SiemensVDOEmulator();
 
                 case SerialProtocol.DUTProtocol:
                     return new DUTEmulator();
@@ -68,14 +69,15 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 case SerialProtocol.TVGGritter:
                     return new TvgGritterEmulator();
 
-                case SerialProtocol.DignitaSerialDemo:
-                    return new DignitaSerialDemo();
-                    
+                //  case SerialProtocol.DignitaSerialDemo:
+                //    return new DignitaSerialDemo();
+                case SerialProtocol.Trailoader:
+                    return new TrailoaderEmulator();
                 default:
                     throw new System.Exception("unknown protocol");
             }
         }
-        
+
         public static string BuildInfoMenu()
         {
             string Menu = "";
