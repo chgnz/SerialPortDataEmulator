@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Emulators\CarrierDirect\CarrierDirectMessage.cs" />
     <Compile Include="Emulators\EmulatorFactory.cs" />
+    <Compile Include="Emulators\Trueload\TrueloadEmulator.cs" />
     <Compile Include="Emulators\Traiload\TrailoaderEmulator.cs" />
     <Compile Include="Emulators\TVG\TvgGritterEmulator.cs" />
     <Compile Include="Emulators\TVG\TvgGritterMessage.cs" />

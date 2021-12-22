@@ -19,8 +19,8 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             UDSRequest,
             VEIMillennium,
             TVGGritter,
-            // DignitaSerialDemo,
             Trailoader,
+            TrueLoad,
 
             UnknownProtocol,
         };
@@ -69,10 +69,12 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 case SerialProtocol.TVGGritter:
                     return new TvgGritterEmulator();
 
-                //  case SerialProtocol.DignitaSerialDemo:
-                //    return new DignitaSerialDemo();
                 case SerialProtocol.Trailoader:
                     return new TrailoaderEmulator();
+
+                case SerialProtocol.TrueLoad:
+                    return new TrueloadEmulator();
+
                 default:
                     throw new System.Exception("unknown protocol");
             }
