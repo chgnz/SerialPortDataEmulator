@@ -50,6 +50,7 @@
     <Compile Include="Emulators\Traiload\TrailoaderEmulator.cs" />
     <Compile Include="Emulators\TVG\TvgGritterEmulator.cs" />
     <Compile Include="Emulators\TVG\TvgGritterMessage.cs" />
+    <Compile Include="Emulators\RandomTests\DTRPulseTrigger.cs" />
     <Compile Include="Emulators\VEI Millennium5\Millennium5Emulator.cs" />
     <Compile Include="Emulators\Lumikko\LumikkoMessage.cs" />
     <Compile Include="Helpers\DallasCRC.cs" />

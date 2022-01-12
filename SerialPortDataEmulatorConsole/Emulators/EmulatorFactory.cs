@@ -21,6 +21,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             TVGGritter,
             Trailoader,
             TrueLoad,
+            DTRPulseTrigger,
 
             UnknownProtocol,
         };
@@ -74,6 +75,9 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
                 case SerialProtocol.TrueLoad:
                     return new TrueloadEmulator();
+
+                case SerialProtocol.DTRPulseTrigger:
+                    return new DTRPulseTrigger();
 
                 default:
                     throw new System.Exception("unknown protocol");
