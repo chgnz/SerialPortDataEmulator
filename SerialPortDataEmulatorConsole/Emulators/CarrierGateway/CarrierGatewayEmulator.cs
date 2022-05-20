@@ -62,6 +62,8 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 }
             }
 
+            Console.WriteLine($"timeout, received {Port.BytesToRead} bytes ");
+
             return false;
         }
 
@@ -81,9 +83,11 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             {
                 crc += data_without_crc[i];
             }
-            
+
+            Console.Write("Sending Response: ");
             SendResponse(data_without_crc);
             SendResponse(new byte[] { crc });
+            Console.WriteLine();
         }
 
         protected virtual byte[] GenerateResponseWithoutCRC(byte command)
@@ -156,6 +160,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                         0x42, 0x00, 0x01, 0xb5, 0x77, 0x42, 0x00, 0x07, 0x8a, 0xb1, 0x06, 0x00, // crc 0xb4
                     };
 
+
                 default:
                     return null;
             }
@@ -169,6 +174,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             }
 
             Port.Write(data, 0, data.Count());
+            Console.Write(BitConverter.ToString(data).Replace("-", ""));
 
             return true;
         }

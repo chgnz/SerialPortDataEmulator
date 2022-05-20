@@ -1,0 +1,17 @@
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\SerialPortDataEmulatorConsoleTests.dll
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\SerialPortDataEmulatorConsoleTests.pdb
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\SerialPortDataEmulatorConsole.exe
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\SerialPortDataEmulatorConsole.pdb
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\SerialPortDataEmulatorConsole.exe.config
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\obj\Debug\SerialPortDataEmulatorConsoleTests.csproj.AssemblyReference.cache
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\obj\Debug\SerialPortDataEmulatorConsoleTests.csproj.CoreCompileInputs.cache
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\obj\Debug\SerialPortDataEmulatorConsoleTests.csproj.CopyComplete
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\obj\Debug\SerialPortDataEmulatorConsoleTests.dll
+C:\#Backup\backup\desktop\SerialPortDataEmulator\SerialPortDataEmulatorConsoleTests\obj\Debug\SerialPortDataEmulatorConsoleTests.pdb

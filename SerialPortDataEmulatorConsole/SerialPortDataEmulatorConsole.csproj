@@ -45,7 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Emulators\CarrierDirect\CarrierDirectMessage.cs" />
+    <Compile Include="Emulators\CarrierGateway\CarrierDataCold600Emulator.cs" />
     <Compile Include="Emulators\EmulatorFactory.cs" />
+    <Compile Include="Emulators\J1708\j1708_parameter.cs" />
+    <Compile Include="Emulators\TemperatureLoggers\ThermokingTouchprintModbusEmulator.cs" />
+    <Compile Include="Emulators\J1708\j1708.cs" />
+    <Compile Include="Emulators\TemperatureLoggers\TranScan.cs" />
+    <Compile Include="Emulators\Test.cs" />
     <Compile Include="Emulators\Trueload\TrueloadEmulator.cs" />
     <Compile Include="Emulators\Traiload\TrailoaderEmulator.cs" />
     <Compile Include="Emulators\TVG\TvgGritterEmulator.cs" />

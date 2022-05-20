@@ -72,28 +72,31 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
         protected virtual string GenerateResponse(string command)
         {
+            command = command.TrimEnd();
+
             switch (command)
             {
-                case "?\r":
+                case "?":
                     //  fw version
                     return "TMS V1.63\r";
-                case "i\r":
-                    // serial nr on tk
-                    return "serial-nr\r";
 
-                    // NB fixed width integer? 
-                case "M1\r":
+                case "M0":
+                    // all inputs
+                    return $"M0  22.{GetDigit()}, 22.{GetDigit()},  5.{GetDigit()}, 20.{GetDigit()},  0.0,  0.0,0000\r";
+
+                case "M1":
                     return "M1  19.4,0000\r";
-                case "M2\r":
-                    return "M2   0.0,0000\r";
-                case "M3\r":
+                case "M2":
+                    return "M2   3.5,0000\r";
+                case "M3":
                     return "M3   1.0,0000\r";
-                case "M4\r":
+                case "M4":
                     return "M4   3.0,0000\r";
-                case "M5\r":
-                    return "M5   3.0,0000\r";
-                case "M6\r":
-                    // input not enabled (temp = 0.00)
+
+                // input not enabled (temp = 0.00)
+                case "M5":
+                    return "M5   0.0,0000\r";
+                case "M6":
                     return "M6   0.0,0000\r";
 
                 default:
@@ -113,7 +116,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             Port.Write(data, 0, data.Count());
 
-            Console.WriteLine($"data sent: '{response.Replace("\n", "\\n")}', size: {data.Count()}");
+            Console.WriteLine($"data sent: '{response.Trim()}', size: {data.Count()}");
 
             return true;
         }
@@ -126,6 +129,11 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         public string GetMenuString()
         {
             return "Euroscan MX Series (Request-Response ASCII protocol @ baudrate 9600)";
+        }
+
+        private static string GetDigit()
+        {
+            return new Random().Next(0, 9).ToString();
         }
     }
 }

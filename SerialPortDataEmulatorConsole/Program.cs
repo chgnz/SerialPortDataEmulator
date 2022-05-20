@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 
 using SerialPortDataEmulatorConsole.SerialProtocols;
+using static SerialPortDataEmulatorConsole.SerialProtocols.EmulatorFactory;
 
 namespace SerialPortDataEmulatorConsole
 {
@@ -16,25 +17,30 @@ namespace SerialPortDataEmulatorConsole
             // show menu with available serial emulators
             DisplayMenu(EmulatorFactory.BuildInfoMenu());
 
-            try
-            {
-                // read selected index and set emulator. throws exception if invalid emulator selected
-                emulator = SelectedEmulator();
+            //todo remove this section
+            emulator = EmulatorFactory.Build((int)SerialProtocol.J1708);
+            SerialPort serialport = new SerialPort("COM40");
+            emulator.Init(serialport);
+            // todo till here
 
-                string[] ports = (string[])SerialPort.GetPortNames().Clone();
+            //try
+            //{
+            //    // read selected index and set emulator. throws exception if invalid emulator selected
+            //    emulator = SelectedEmulator();
 
-                // show all available Serial ports. throws exception if no serial ports are found
-                ShowAvailableComportMenu(ports);
+            //    string[] ports = (string[])SerialPort.GetPortNames().Clone();
 
-                // select serial port based on user entry, throws exception if invalid port selected
-                SerialPort serialport = SelectedSerialPort(ports);
+            //    // show all available Serial ports. throws exception if no serial ports are found
+            //    ShowAvailableComportMenu(ports);
+            //    // select serial port based on user entry, throws exception if invalid port selected
+            //    SerialPort serialport = SelectedSerialPort(ports);
 
-                emulator.Init(serialport);
-            }
-            catch (Exception ex)
-            {
-                CloseApp($"{ex.Message} Press any key to close application");
-            }
+            //    emulator.Init(serialport);
+            //}
+            //catch (Exception ex)
+            //{
+            //    CloseApp($"{ex.Message} Press any key to close application");
+            //}
 
             while (true)
             {
@@ -60,6 +66,7 @@ namespace SerialPortDataEmulatorConsole
                 emulator.Trigger();
                 Thread.Sleep(1);
             }
+
         }
 
         static public void DisplayMenu(string MenuText)
