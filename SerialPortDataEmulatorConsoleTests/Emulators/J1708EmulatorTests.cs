@@ -15,15 +15,15 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols.Tests
         public void j1708_checksumTest()
         {
             J1708Emulator j1708 = new J1708Emulator();
-            byte[] message_without_cheksum;
+            byte[] message_without_checksum;
             byte checksum;
 
-            message_without_cheksum = new byte[] { 128, 21, 50, 12, 5, 48 };
-            checksum = j1708.j1708_checksum(message_without_cheksum);
+            message_without_checksum = new byte[] { 128, 21, 50, 12, 5, 48 };
+            checksum = j1708.j1708_checksum(message_without_checksum);
             Assert.AreEqual(248, checksum);
 
-            message_without_cheksum = new byte[] { 128, 95, 23, 45, 123 };
-            checksum = j1708.j1708_checksum(message_without_cheksum);
+            message_without_checksum = new byte[] { 128, 95, 23, 45, 123 };
+            checksum = j1708.j1708_checksum(message_without_checksum);
             Assert.AreEqual(98, checksum);
         }
     }
