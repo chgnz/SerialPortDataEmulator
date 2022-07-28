@@ -21,7 +21,12 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             TVGGritter,
             Trailoader,
             TrueLoad,
-
+            Test,
+            TranScan,
+            DataCold600,
+            ThermokingTouchprintModbus,
+            J1708,
+            APM303Modbus,
             UnknownProtocol,
         };
 
@@ -75,6 +80,24 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 case SerialProtocol.TrueLoad:
                     return new TrueloadEmulator();
 
+                case SerialProtocol.Test:
+                    return new Test();
+
+                case SerialProtocol.TranScan:
+                    return new TranScanEmulator();
+
+                case SerialProtocol.DataCold600:
+                    return new CarrierDataCold600Emulator();
+
+                case SerialProtocol.ThermokingTouchprintModbus:
+                    return new ThermokingTouchprintModbusEmulator();
+
+                case SerialProtocol.J1708:
+                    return new J1708Emulator();
+
+                case SerialProtocol.APM303Modbus:
+                    return new APM303ModbusEmulator();
+                    
                 default:
                     throw new System.Exception("unknown protocol");
             }

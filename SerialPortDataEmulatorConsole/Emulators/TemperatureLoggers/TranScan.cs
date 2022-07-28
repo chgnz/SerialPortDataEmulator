@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace SerialPortDataEmulatorConsole.SerialProtocols
 {
-    class EuroscanEmulator : ISerialEmulator
+    class TranScanEmulator : ISerialEmulator
     {
-        protected 
         private SerialPort Port;
 
         public void Init(SerialPort port)
@@ -21,7 +20,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             this.Port.BaudRate = GetBaudrate();
             this.Port.Open();
 
-            Console.WriteLine($"Euroscan Emulator Initialized. {port.PortName}, Baudrate: {GetBaudrate()}");
+            Console.WriteLine($"TranScan 2 ADR Emulator Initialized. {port.PortName}, Baudrate: {GetBaudrate()}");
         }
 
         public void Trigger()
@@ -36,7 +35,6 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             WaitRequest();
 
         }
-
         bool WaitRequest()
         {
             TimeSpan maxDuration = TimeSpan.FromMilliseconds(100);
@@ -76,28 +74,71 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             switch (command)
             {
+                case "i":
+                case "I":
+                    return $"◄{command} T19046\r";
+                case "a":
+                case "A":
+                    return $"◄{command} 0000,0,0,0,0,0000\r";
+                case "f":
+                case "F":
+                    return $"{command} 0158\r";
+                case "h":
+                case "H":
+                    // historical temperature values?		
+                    return $"{command} 0042\r";
                 case "?":
-                    //  fw version
-                    return "TMS V1.63\r";
+                    return $"TS2-T700\r";
+                case "#":
+                    return $" 7932\r";
+                case "x":
+                case "X":
+                    return $"{command} 0158\r";
+                case "m":
+                case "M":
+                    return $"{command} 0000,0000\r";
+
+                case "f1":
+                    return $"{command} f 0001 2022-01-26,19:55:00,T19046,4,4,2,1,8,T700,0,359\r";
+                case "F1":
+                    return $"{command} F 0001 2022-01-26,19:55:00,T19046,4,4,2,1,8,T700,0,359\r";
+                case "f2":
+                    return $"{command} f 0002 2022-01-26,18:45:00,T19046,4,4,2,1,132,T700,0,358\r";
+                case "F2":
+                    return $"{command} F 0002 2022-01-26,18:45:00,T19046,4,4,2,1,132,T700,0,358\r";
+
+                case "h1":
+                    return $"{command} h 0001 2017-09-06,13:17:00,T19046,-18.4,-50.0,0000,00\r";
+                case "H1":
+                    return $"{command} H 0001 2017-09-06,13:17:00,T19046,-18.4,-50.0,0000,00\r";
+                case "h2":
+                    return $"{command} h 0002 2017-09-06,13:15:00,T19046,-18.4,-50.0,0000,00\r";
+                case "H2":
+                    return $"{command} H 0002 2017-09-06,13:15:00,T19046,-18.4,-50.0,0000,00\r";
 
                 case "M0":
-                    // all inputs
-                    return $"M0  22.{GetDigit()}, 22.{GetDigit()},  5.{GetDigit()}, 20.{GetDigit()},  0.0,  0.0,0000\r";
-
+                case "m0":
+                case "M 0":
+                case "m 0":
+                    return $"{command} 9.5,-5.4,-50.0,-50.0,0000,0000\r";
+                case "m1":
                 case "M1":
-                    return "M1  19.4,0000\r";
+                    return $"{command} 9.3,0000,0000\r";
+                case "m2":
                 case "M2":
-                    return "M2   3.5,0000\r";
+                    return $"{command} -12.8,0000,0000\r";
+                case "m3":
                 case "M3":
-                    return "M3   1.0,0000\r";
+                    return $"{command} -50.0,0000,0000\r";
+                case "m4":
                 case "M4":
-                    return "M4   3.0,0000\r";
-
-                // input not enabled (temp = 0.00)
+                    return $"{command} -50.0,0000,0000\r";
+                case "m5":
                 case "M5":
-                    return "M5   0.0,0000\r";
+                    return $"#2\r";
+                case "m6":
                 case "M6":
-                    return "M6   0.0,0000\r";
+                    return $"#2\r";
 
                 default:
                     Console.WriteLine($"unknown request: {command}");
@@ -128,12 +169,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
         public string GetMenuString()
         {
-            return "Euroscan MX Series (Request-Response ASCII protocol @ baudrate 9600)";
-        }
-
-        private static string GetDigit()
-        {
-            return new Random().Next(0, 9).ToString();
+            return "TranScan 2 ADR  (Request-Response ASCII protocol @ baudrate 9600)";
         }
     }
 }
