@@ -28,6 +28,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             J1708,
             APM303Modbus,
             Dignita,
+            Drager,
             UnknownProtocol,
         };
 
@@ -101,6 +102,9 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
                 case SerialProtocol.Dignita:
                     return new DignitaSerialDemo();
+
+                case SerialProtocol.Drager:
+                    return new DragerSerialDemo();
                     
                 default:
                     throw new System.Exception("unknown protocol");
