@@ -79,7 +79,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
         public string GetMenuString()
         {
-            return "secureseal?";
+            return "Seacure Seal";
         }
     }
 }

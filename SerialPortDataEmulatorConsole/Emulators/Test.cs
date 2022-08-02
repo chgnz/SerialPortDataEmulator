@@ -121,7 +121,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
         public string GetMenuString()
         {
-            return "set Menu entry which will be displayed on app startup";
+            return "sandbox mode";
         }
     }
 }
