@@ -27,6 +27,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             ThermokingTouchprintModbus,
             J1708,
             APM303Modbus,
+            Dignita,
             UnknownProtocol,
         };
 
@@ -97,6 +98,9 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
                 case SerialProtocol.APM303Modbus:
                     return new APM303ModbusEmulator();
+
+                case SerialProtocol.Dignita:
+                    return new DignitaSerialDemo();
                     
                 default:
                     throw new System.Exception("unknown protocol");

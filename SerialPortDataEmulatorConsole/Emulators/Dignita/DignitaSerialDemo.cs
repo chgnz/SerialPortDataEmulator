@@ -8,13 +8,16 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 {
     class DignitaSerialDemo : ISerialEmulator
     {
+        private const int TX_INTERVAL_MS = 2500;
+        private byte[] cmd = new byte[] { 0x02, 0xff, 0xff, 0xff, 0xff, 0xff, 0x64, 0x00, 0xff };
+
+        private SerialPort Port;
+
         // interval settings
         private UInt32 TxInterval;
-        private SerialPort Port;
 
         // private vars
         private long Timestamp;
-        private int UdsMsgIndex;
 
         public void Init(SerialPort port)
         {
@@ -26,10 +29,11 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             this.Port.Open();
 
-            Console.WriteLine($"dignita demo test. {port.PortName}, Baudrate: {GetBaudrate()}, Tx interval: {GetTxInterval()} ms");
+            Console.WriteLine($"Dignita. {port.PortName}, Baudrate: {GetBaudrate()}, Tx interval: {GetTxInterval()} ms");
 
             Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
         }
+
         bool WaitResponse()
         {
             TimeSpan maxDuration = TimeSpan.FromMilliseconds(1000);
@@ -51,7 +55,6 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                     {
                         lastDataRx = Stopwatch.StartNew();
                     }
-
                 }
 
                 Thread.Sleep(1);
@@ -74,19 +77,12 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 return;
             }
 
-            if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Enter)
-            {
-                this.Send();
-            }
-
+            this.Send();
 
             this.WaitResponse();
 
             this.Timestamp = GetTimestamp();
         }
-
-        readonly byte[] cmd = new byte[] { 0x02, 0xff, 0xff, 0xff, 0xff, 0xff, 0x64, 0x00, 0xff };
-        private byte counter = 0;
 
         bool Send()
         {
@@ -114,12 +110,12 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
         private UInt32 GetTxInterval()
         {
-            return 250;
+            return TX_INTERVAL_MS;
         }
 
         public string GetMenuString()
         {
-            return "Dignita, hack, to test comms";
+            return $"Dignita, Transmit single Dignita event message with {TX_INTERVAL_MS} ms intervals";
         }
     }
 }

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Emulators\CarrierDirect\CarrierDirectMessage.cs" />
     <Compile Include="Emulators\CarrierGateway\CarrierDataCold600Emulator.cs" />
+    <Compile Include="Emulators\Dignita\DignitaSerialDemo.cs" />
     <Compile Include="Emulators\EmulatorFactory.cs" />
     <Compile Include="Emulators\J1708\j1708_parameter.cs" />
     <Compile Include="Emulators\APM303\APM303ModbusEmulator.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Emulators\TVG\TvgGritterMessage.cs" />
     <Compile Include="Emulators\VEI Millennium5\Millennium5Emulator.cs" />
     <Compile Include="Emulators\Lumikko\LumikkoMessage.cs" />
+    <Compile Include="Helpers\ModbusCRC.cs" />
     <Compile Include="Helpers\DallasCRC.cs" />
     <Compile Include="Emulators\CarrierGateway\CarrierGatewayMessage.cs" />
     <Compile Include="Emulators\FuelSensors\DutMessage.cs" />
