@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Emulators\CarrierDirect\CarrierDirectMessage.cs" />
     <Compile Include="Emulators\CarrierGateway\CarrierDataCold600Emulator.cs" />
+    <Compile Include="Emulators\Drager\DragerSerialDemo.cs" />
     <Compile Include="Emulators\Dignita\DignitaSerialDemo.cs" />
     <Compile Include="Emulators\EmulatorFactory.cs" />
     <Compile Include="Emulators\J1708\j1708_parameter.cs" />
