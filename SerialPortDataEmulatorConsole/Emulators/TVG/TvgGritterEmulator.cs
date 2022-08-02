@@ -49,6 +49,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 outArrEx = convertToByteStreamEx(TvgRxMsg.DataExtnd);
                 string outStrEx = Encoding.Default.GetString(outArrEx);
                 Console.WriteLine("OUT ex: " + outStrEx);
+                this.Port.Write(outStrEx);
             }
             else if (counter < 100)
             {
@@ -56,6 +57,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 outArr = convertToByteStream(TvgRxMsg.DataStd);
                 string outStr = Encoding.Default.GetString(outArr);
                 Console.WriteLine("OUT: " + outStr);
+                this.Port.Write(outStr);
             }
             else
             {
