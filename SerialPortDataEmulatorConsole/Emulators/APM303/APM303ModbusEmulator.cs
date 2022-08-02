@@ -94,7 +94,8 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             Console.WriteLine($"first_register_address: {first_register_address:X}, register count {register_count}");
 
-            if (!validateCrc(command))
+            
+            if (!ModbusCRC.IsValidCRC(command))
             {
                 Console.WriteLine($"invalid crc");
                 return false; 
@@ -155,7 +156,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             msg[3] = (byte)((value << 8) & 0xff);
             msg[4] = (byte)(value & 0xff);
 
-            int crc_response = calculateCrc(msg);
+            int crc_response = ModbusCRC.CalculateCRC(msg);
             var crc_modbus = new byte[] { (byte)(crc_response & 0xff), (byte)((crc_response >> 8) & 0xff) };
 
             this.SendResponse(msg);
@@ -190,44 +191,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
         public string GetMenuString()
         {
-            return "Thermoking Touchprint (Request-Response MODBUS protocol @ baudrate 9600)";
+            return "APM303 Generator (Request-Response MODBUS protocol @ baudrate 9600)";
         }
-
-        private bool validateCrc(byte[] data_packet)
-        {
-            int crc_received = data_packet[7] << 8 | data_packet[6];
-            int crc = 0xffff;
-
-            for (int i = 0; i < 6; i++)
-            {
-                crc ^= data_packet[i];
-                for (byte bit_num = 0; bit_num < 8; ++bit_num)
-                {
-                    crc = (crc & 1) > 0 ? (crc >> 1) ^ 0xa001 : (crc >> 1);
-                }
-            }
-
-            Console.WriteLine($"crc: {crc:x}, crc_received: {crc_received:x}");
-
-            return crc_received == crc;
-
-        }
-
-        private int calculateCrc(byte[] data)
-        {
-            int crc = 0xffff;
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                crc ^= data[i];
-                for (byte bit_num = 0; bit_num < 8; ++bit_num)
-                {
-                    crc = (crc & 1) > 0 ? (crc >> 1) ^ 0xa001 : (crc >> 1);
-                }
-            }
-
-            return crc;
-        }
-
     }
 }
