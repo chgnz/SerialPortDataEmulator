@@ -23,21 +23,51 @@
             116, 42,200,150, 21, 75,169,247,182,232, 10, 84,215,137,107, 53
         };
 
-        public byte Update(byte checksum, byte data_byte)
+        /// <summary>
+        /// Update CRC by entering next data byte from the packet
+        /// </summary>
+        /// <param name="crc">Current CRC value</param>
+        /// <param name="data_byte">Next data byte</param>
+        /// <returns>CRC</returns>
+        public byte Update(byte crc, byte data_byte)
         {
-            byte crc = checksum;
             crc = CRC_8_TABLE[crc ^ data_byte];
             return crc;
         }
 
+        /// <summary>
+        /// Return initial Dallas CRC value (0)
+        /// </summary>
+        /// <returns>Return initial Dallas CRC value (0)</returns>
         public byte Begin()
         {
             return 0;
         }
 
-        public byte End(byte checksum)
+        /// <summary>
+        /// Prepare resulting CRC. (return the same value as entering)
+        /// </summary>
+        /// <returns>CRC</returns>
+        public byte End(byte crc)
         {
-            return checksum;
+            return crc;
+        }
+
+        /// <summary>
+        /// Calculate CRC of a full dallas message/packet
+        /// </summary>
+        /// <param name="packet">Data packet for CRC calucations</param>
+        /// <returns>CRC</returns>
+        public byte CalcuateCRC(byte[] packet)
+        {
+            byte crc = 0;
+
+            for (int i = 0; i < packet.Length; i++)
+            {
+                crc = Update(crc, packet[i]);
+            }
+
+            return crc;
         }
     }
 }
