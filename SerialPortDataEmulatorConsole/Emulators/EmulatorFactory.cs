@@ -29,6 +29,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             APM303Modbus,
             Dignita,
             Drager,
+            IntellicEFAS,
             UnknownProtocol,
         };
 
@@ -105,7 +106,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
                 case SerialProtocol.Drager:
                     return new DragerSerialDemo();
-                    
+
+                case SerialProtocol.IntellicEFAS:
+                    return new IntellicEFASEmulatory();
+
                 default:
                     throw new System.Exception("unknown protocol");
             }
