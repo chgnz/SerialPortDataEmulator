@@ -1,6 +1,6 @@
 ﻿
-#define __FIXED_MODE__
-#define __FIXED_SERIALPORT__
+//#define __FIXED_MODE__
+//#define __FIXED_SERIALPORT__
 
 using System;
 using System.IO.Ports;
