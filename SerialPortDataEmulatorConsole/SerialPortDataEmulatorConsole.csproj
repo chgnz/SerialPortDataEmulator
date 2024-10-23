@@ -53,6 +53,7 @@
     <Compile Include="Emulators\J1708\j1708_parameter.cs" />
     <Compile Include="Emulators\APM303\APM303ModbusEmulator.cs" />
     <Compile Include="Emulators\Axtec.cs" />
+    <Compile Include="Emulators\Tachograph\IntellicEFASEmulator.cs" />
     <Compile Include="Emulators\TemperatureLoggers\ThermokingTouchprintModbusEmulator.cs" />
     <Compile Include="Emulators\J1708\j1708.cs" />
     <Compile Include="Emulators\TemperatureLoggers\TranScan.cs" />

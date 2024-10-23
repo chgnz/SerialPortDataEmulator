@@ -111,7 +111,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                     return new DragerSerialDemo();
 
                 case SerialProtocol.IntellicEFAS:
-                    return new IntellicEFASEmulatory();
+                    return new IntellicEFASEmulator();
 
                 case SerialProtocol.PiusiMode:
                     return new PiusiEmulator();

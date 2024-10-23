@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SerialPortDataEmulatorConsole.SerialProtocols
 {
-    class IntellicEFASEmulatory : ISerialEmulator
+    class IntellicEFASEmulator : ISerialEmulator
     {
         // Msg to send
         private readonly byte[][] EFAS_MSG = new byte[][] {
