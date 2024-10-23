@@ -30,6 +30,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             Dignita,
             Drager,
             IntellicEFAS,
+            PiusiMode,
             UnknownProtocol,
         };
 
@@ -109,6 +110,9 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
                 case SerialProtocol.IntellicEFAS:
                     return new IntellicEFASEmulatory();
+
+                case SerialProtocol.PiusiMode:
+                    return new PiusiEmulator();
 
                 default:
                     throw new System.Exception("unknown protocol");

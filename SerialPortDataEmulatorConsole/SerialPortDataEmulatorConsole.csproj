@@ -59,6 +59,7 @@
     <Compile Include="Emulators\Traiload\TrailoaderEmulator.cs" />
     <Compile Include="Emulators\TVG\TvgGritterEmulator.cs" />
     <Compile Include="Emulators\TVG\TvgGritterMessage.cs" />
+    <Compile Include="Emulators\Piusi.cs" />
     <Compile Include="Emulators\VEI Millennium5\Millennium5Emulator.cs" />
     <Compile Include="Emulators\Lumikko\LumikkoMessage.cs" />
     <Compile Include="Helpers\ModbusCRC.cs" />
