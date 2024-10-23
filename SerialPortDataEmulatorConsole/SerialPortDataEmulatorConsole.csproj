@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Emulators\Thermoking iBox.cs" />
     <Compile Include="Emulators\CarrierDirect\CarrierDirectMessage.cs" />
     <Compile Include="Emulators\CarrierGateway\CarrierDataCold600Emulator.cs" />
     <Compile Include="Emulators\Drager\DragerSerialDemo.cs" />

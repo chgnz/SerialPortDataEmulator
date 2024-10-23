@@ -8,7 +8,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             SREProtocol = 1,
             VDOProtocol,
-            DUTProtocol,
+            DUTProtocol, 
             EpsilonESProtocol,
             CarrierGatewayProtocol,
             LumikkoProtocol,
@@ -32,6 +32,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             IntellicEFAS,
             PiusiMode,
             AxtecMode,
+            iBoxMode,
             UnknownProtocol,
         };
 
@@ -117,6 +118,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
                 case SerialProtocol.AxtecMode:
                     return new AxtecEmulator();
+
+                case SerialProtocol.iBoxMode:
+                    return new iBoxEmulator();
+
 
                 default:
                     throw new System.Exception("unknown protocol");
