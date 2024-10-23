@@ -50,6 +50,7 @@
     <Compile Include="Emulators\Drager\DragerSerialDemo.cs" />
     <Compile Include="Emulators\Dignita\DignitaSerialDemo.cs" />
     <Compile Include="Emulators\EmulatorFactory.cs" />
+    <Compile Include="Emulators\EN15430\EN15430Emulator.cs" />
     <Compile Include="Emulators\J1708\j1708_parameter.cs" />
     <Compile Include="Emulators\APM303\APM303ModbusEmulator.cs" />
     <Compile Include="Emulators\Axtec.cs" />
