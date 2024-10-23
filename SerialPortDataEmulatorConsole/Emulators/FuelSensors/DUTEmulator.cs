@@ -8,8 +8,11 @@ using System.Threading.Tasks;
 
 namespace SerialPortDataEmulatorConsole.SerialProtocols
 {
-    class DUTEmulator : ISerialEmulator
+    public class DUTEmulator : ISerialEmulator
     {
+        protected int value;
+        protected bool enableValueOverride;
+
         private SerialPort Port;
         protected DutMessage DutRxMsg = new DutMessage();
 
@@ -22,7 +25,6 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             Console.WriteLine($"DUT FuelSensor Emulator Initialized. {port.PortName}, Baudrate: {GetBaudrate()}");
         }
-
         public void Trigger()
         {
             if (!Port.IsOpen)
@@ -52,9 +54,11 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
                 if (ReceiveDutMessage(rx_byte))
                 {
-                    Console.WriteLine($"Dut Message received: command: 0x{DutRxMsg.Data.Command:x}");
-                    HandleRequest();
+                    var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+                    Console.WriteLine($"{Timestamp} - Dut Message received: command: 0x{DutRxMsg.Data.Command:x}, address: 0x{DutRxMsg.Data.Address:x}");
                     DutRxMsg.Reset();
+					HandleRequest(DutRxMsg);
+
                     return true;
                 }
             }
@@ -62,9 +66,14 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             return false;
         }
 
-        private void HandleRequest()
+        private void HandleRequest(DutMessage request)
         {
-            var data_without_crc = GenerateResponseWithoutCRC(DutRxMsg.Data.Command);
+            var data_without_crc = GenerateResponseWithoutCRC(request.Data.Command, request.Data.Address);
+
+            if (request.Data.Address > 101)
+            {
+                //return;
+            }
 
             if (data_without_crc == null)
             {
@@ -80,29 +89,32 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 crc = CRC_Calculator.Update(crc, data_without_crc[i]);
             }
             
-            SendResponse(data_without_crc);
-            SendResponse(new byte[] { crc });
+            byte[] response = data_without_crc.Concat(new byte[] { crc }).ToArray();
+            SendResponse(response);
+
+            Console.WriteLine($"sent {response.Length} bytes {BitConverter.ToString(response)}");
         }
 
-        protected virtual byte[] GenerateResponseWithoutCRC(byte command)
+        static byte counter = 0;
+        protected virtual byte[] GenerateResponseWithoutCRC(byte command, byte address)
         {
             switch (command)
             {
                 case 0x02:
                     // serial number (DUT-E)
-                    return new byte[] { 0x3e, 0xff, 0x02, 0x01, 0x02, 0x03, 0x04 };
+                    return new byte[] { 0x3e, address, 0x02, 0x01, 0x02, 0x03, 0x04 };
 
                 case 0x06:
                     // filtered params
-                    return new byte[] { 0x3e, 0xff, 0x06, 0x01, 0x01, 0x01, 0x01, 0x01 };
+                    return new byte[] { 0x3e, address, 0x06, 0x01, 0x01, 0x01, counter, 0x01 };
 
                 case 0x1c:
                     // FW Version (DUT-E)
-                    return new byte[] { 0x3e, 0xff, 0x1c, 0x01, 0x02, 0x03 };
+                    return new byte[] { 0x3e, address, 0x1c, 0x01, 0x02, 0x03 };
 
                 case 0x23:
                     // work parames (DUT-E)
-                    return new byte[] { 0x3e, 0xff, 0x23, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04 };
+                    return new byte[] { 0x3e, address, 0x23, counter++, 0x00, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04 };
            
                 default:
                     return null;
@@ -121,7 +133,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             return true;
         }
 
-        private int GetBaudrate()
+        virtual protected int GetBaudrate()
         {
             return 19200;
         }
@@ -210,24 +222,57 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         }
     }
 
-    class EpsilonESEmulator : DUTEmulator
+    public class EpsilonESEmulator : DUTEmulator, IFuelSensorEmulator
     {
 
-        override protected byte[] GenerateResponseWithoutCRC(byte command)
+        override protected byte[] GenerateResponseWithoutCRC(byte command, byte address)
         {
             switch (command)
             {
                 case 0x06:
                     // filtered params
-                    return new byte[] { 0x3e, 0xff, 0x06, 0x01, 0x01, 0x01, 0x01, 0x01 };
+
+                    short test_value = this.enableValueOverride ? (short)(this.value & 0xffff) : (short)new Random().Next(1, 4096);
+                    Console.WriteLine($"sending value: {(short)(test_value)}, {this.enableValueOverride}");
+
+                    return new byte[] { 0x3e, address, 0x06, 0x08, (byte)(test_value & 0xff), (byte)(test_value >> 8), 0x01, 0x01 };
 
                 default:
                     return null;
             }
         }
+
         override public string GetMenuString()
         {
             return "Epsilon ES FuelSensor (Request-Response protocol @ baudrate 19200), implemented commands: 0x06";
+        }
+
+        public void SetFixedFuelValue(int value)
+        {
+            this.value = value;
+        }
+
+        public void EnableFixedValueMode()
+        {
+            this.enableValueOverride = true;
+        }
+
+        public void EnableRandomValueMode()
+        {
+            this.enableValueOverride = false;
+        }
+    }
+
+    public class TechnotonFlowMeter : DUTEmulator
+    {
+        override protected int GetBaudrate()
+        {
+            return 9600;
+        }
+
+        override public string GetMenuString()
+        {
+            return "Technoton flow meter (Request-Response protocol @ baudrate 57600)";
         }
     }
 }

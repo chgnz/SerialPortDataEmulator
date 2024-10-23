@@ -8,7 +8,7 @@ namespace SerialPortDataEmulatorConsole
 {
     public class DutMessage
     {
-        enum DutCommand
+        public enum DutCommand
         {
             // kopējie
             full_config = 0x05,     ///< pilna konfigurācija
@@ -71,33 +71,118 @@ namespace SerialPortDataEmulatorConsole
 
         public int GetPayloadSize()
         {
+            if (this.Data.Header == 0x31)
+            {
+                return 0;
+            }
+            else if (this.Data.Header == 0x3e)
+            {
+                switch ((DutCommand)this.Data.Command)
+                {
+                    // kopējie formāti
+                    case DutCommand.filtered_values: return 5;
+                    case DutCommand.unfiltered_values: return 5;
+                    case DutCommand.full_config: return 18;
+                    case DutCommand.filter_interval: return 1;
+                    case DutCommand.calibration: return 124;
+                    case DutCommand.compile_time: return 16;
+                    case DutCommand.compile_date: return 16;
+                    case DutCommand.fw_version: return 3;
+                    case DutCommand.work_values: return 48;
+                    case DutCommand.ext_config: return 6;
+                    case DutCommand.bounds: return 16;
+                    case DutCommand.passwd: return 8;
+
+                    // Technoton DUT specifiskie
+                    case DutCommand.dute_serial_number: return 4;
+
+                    // Epsilon ES specifiskie
+                    case DutCommand.es_serial_number: return 7;
+
+                    // nezināms formāts
+                    default: return 0;
+                };
+            }
+
             return 0;
+        }
 
-            //switch ((DutCommand)this.Data.Command)
-            //{
-            //    // kopējie formāti
-            //    case DutCommand.filtered_values: return 5;
-            //    case DutCommand.unfiltered_values: return 5;
-            //    case DutCommand.full_config: return 18;
-            //    case DutCommand.filter_interval: return 1;
-            //    case DutCommand.calibration: return 124;
-            //    case DutCommand.compile_time: return 16;
-            //    case DutCommand.compile_date: return 16;
-            //    case DutCommand.fw_version: return 3;
-            //    case DutCommand.work_values: return 48;
-            //    case DutCommand.ext_config: return 6;
-            //    case DutCommand.bounds: return 16;
-            //    case DutCommand.passwd: return 8;
+        public bool Receive(DutMessage DutRxMsg, byte rx_byte)
+        {
+            if (!DutRxMsg.State.HeaderReceived)
+            {
+                DutRxMsg.Data.Header = rx_byte;
 
-            //    // Technoton DUT specifiskie
-            //    case DutCommand.dute_serial_number: return 4;
+                if (DutRxMsg.Data.Header != 0x31 &&
+                    DutRxMsg.Data.Header != 0x3e)
+                {
+                    return false;
+                }
 
-            //    // Epsilon ES specifiskie
-            //    case DutCommand.es_serial_number: return 7;
+                DutRxMsg.State.HeaderReceived = true;
+                return false;
+            }
 
-            //    // nezināms formāts
-            //    default: return 0;
-            //};
+            if (!DutRxMsg.State.AddressReceived)
+            {
+                DutRxMsg.Data.Address = rx_byte;
+                DutRxMsg.State.AddressReceived = true;
+                return false;
+            }
+
+            if (!DutRxMsg.State.CommandReceived)
+            {
+                DutRxMsg.Data.Command = rx_byte;
+                DutRxMsg.Data.Size = DutRxMsg.GetPayloadSize();
+
+                DutRxMsg.State.CommandReceived = true;
+                return false;
+            }
+
+            if (!DutRxMsg.State.DataReceived && DutRxMsg.Data.Size > 0)
+            {
+                if (DutRxMsg.Data.DataBytesReceived > DutRxMsg.Data.Payload.Length)
+                {
+                    Console.WriteLine("pa daudz datu!!");
+                    DutRxMsg.Reset();
+                    return false;
+                }
+
+                // vācam datus
+                DutRxMsg.Data.Payload[DutRxMsg.Data.DataBytesReceived++] = rx_byte;
+
+                if (DutRxMsg.Data.DataBytesReceived == DutRxMsg.Data.Size)
+                {
+                    DutRxMsg.State.DataReceived = true;
+                }
+
+                return false;
+            }
+
+            if (!DutRxMsg.State.CrcReceived)
+            {
+                DutRxMsg.Data.Crc = rx_byte;
+                DutRxMsg.State.CrcReceived = true;
+
+                var CRC_Calculator = new DallasCRC();
+                byte crc = CRC_Calculator.Begin();
+                crc = CRC_Calculator.Update(crc, DutRxMsg.Data.Header);
+                crc = CRC_Calculator.Update(crc, DutRxMsg.Data.Address);
+                crc = CRC_Calculator.Update(crc, DutRxMsg.Data.Command);
+
+                for (int i = 0; i < DutRxMsg.Data.Size; i++)
+                {
+                    crc = CRC_Calculator.Update(crc, DutRxMsg.Data.Payload[i]);
+                }
+
+                if (crc != DutRxMsg.Data.Crc)
+                {
+                    DutRxMsg.Reset();
+                }
+                return true;
+            }
+
+            return false;
         }
     }
 }

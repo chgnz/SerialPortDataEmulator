@@ -9,6 +9,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             SREProtocol = 1,
             VDOProtocol,
             DUTProtocol, 
+            TechnotonFlowMeter,
             EpsilonESProtocol,
             CarrierGatewayProtocol,
             LumikkoProtocol,
@@ -30,6 +31,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             Dignita,
             Drager,
             IntellicEFAS,
+            FuelSensorReadMode,
             PiusiMode,
             AxtecMode,
             iBoxMode,
@@ -49,6 +51,9 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
                 case SerialProtocol.DUTProtocol:
                     return new DUTEmulator();
+
+                case SerialProtocol.TechnotonFlowMeter:
+                    return new TechnotonFlowMeter();
 
                 case SerialProtocol.EpsilonESProtocol:
                     return new EpsilonESEmulator();
@@ -113,6 +118,9 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                 case SerialProtocol.IntellicEFAS:
                     return new IntellicEFASEmulator();
 
+                case SerialProtocol.FuelSensorReadMode:
+                    return new FuelSensorReadMode();
+
                 case SerialProtocol.PiusiMode:
                     return new PiusiEmulator();
 
@@ -137,7 +145,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             {
                 ISerialEmulator emulator = Build(i);
 
-                Menu += $"{i}. {emulator.GetMenuString()}\n";
+                Menu += $"{i,2}. {emulator.GetMenuString()}\n";
             }
 
             return Menu;
