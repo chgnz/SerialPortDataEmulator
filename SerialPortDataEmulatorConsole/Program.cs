@@ -1,10 +1,14 @@
-﻿using System;
+﻿
+#define __FIXED_MODE__
+#define __FIXED_SERIALPORT__
+
+using System;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 
-using SerialPortDataEmulatorConsole.SerialProtocols;
 
+using SerialPortDataEmulatorConsole.SerialProtocols;
 namespace SerialPortDataEmulatorConsole
 {
     class Program
@@ -19,7 +23,11 @@ namespace SerialPortDataEmulatorConsole
             try
             {
                 // read selected index and set emulator. throws exception if invalid emulator selected
+#if __FIXED_MODE__
+                emulator = new FuelSensorReadMode();
+#else
                 emulator = SelectedEmulator();
+#endif
 
                 string[] ports = (string[])SerialPort.GetPortNames().Clone();
 
@@ -27,8 +35,12 @@ namespace SerialPortDataEmulatorConsole
                 ShowAvailableComportMenu(ports);
 
                 // select serial port based on user entry, throws exception if invalid port selected
-                SerialPort serialport = SelectedSerialPort(ports);
 
+#if __FIXED_SERIALPORT__
+                SerialPort serialport = new SerialPort("COM4");
+#else
+                SerialPort serialport = SelectedSerialPort(ports);
+#endif
                 emulator.Init(serialport);
             }
             catch (Exception ex)
