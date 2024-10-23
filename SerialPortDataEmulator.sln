@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortDataEmulatorConso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortDataEmulatorConsoleTests", "SerialPortDataEmulatorConsoleTests\SerialPortDataEmulatorConsoleTests.csproj", "{0F911EE7-39F8-4BFD-923F-F4F1408D5AC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelTest", "FuelTest\FuelTest.csproj", "{930B82DB-46B9-4959-AABE-1B2E7FDFB633}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0F911EE7-39F8-4BFD-923F-F4F1408D5AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F911EE7-39F8-4BFD-923F-F4F1408D5AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F911EE7-39F8-4BFD-923F-F4F1408D5AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{930B82DB-46B9-4959-AABE-1B2E7FDFB633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{930B82DB-46B9-4959-AABE-1B2E7FDFB633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{930B82DB-46B9-4959-AABE-1B2E7FDFB633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{930B82DB-46B9-4959-AABE-1B2E7FDFB633}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,3 +4,5 @@ SerialPortDataEmulatorConsole/obj/
 SerialPortDataEmulatorConsoleTests/bin/
 SerialPortDataEmulatorConsoleTests/obj/
 packages/
+FuelTest/obj/
+FuelTest/bin/
