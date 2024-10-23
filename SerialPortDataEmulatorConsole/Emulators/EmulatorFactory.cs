@@ -31,6 +31,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             Drager,
             IntellicEFAS,
             PiusiMode,
+            AxtecMode,
             UnknownProtocol,
         };
 
@@ -113,6 +114,9 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
                 case SerialProtocol.PiusiMode:
                     return new PiusiEmulator();
+
+                case SerialProtocol.AxtecMode:
+                    return new AxtecEmulator();
 
                 default:
                     throw new System.Exception("unknown protocol");
