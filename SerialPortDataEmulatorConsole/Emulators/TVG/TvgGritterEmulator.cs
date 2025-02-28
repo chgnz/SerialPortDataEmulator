@@ -230,5 +230,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "TVG gritter(automatically transmits each 1000ms @ baudrate 9600)";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

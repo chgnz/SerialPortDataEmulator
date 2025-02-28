@@ -157,5 +157,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "UDSRequest, hack, to test tacho params?";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

@@ -123,5 +123,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "sandbox mode";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

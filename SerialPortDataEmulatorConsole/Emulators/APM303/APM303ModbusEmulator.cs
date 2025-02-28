@@ -193,5 +193,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "APM303 Generator (Request-Response MODBUS protocol @ baudrate 9600)";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

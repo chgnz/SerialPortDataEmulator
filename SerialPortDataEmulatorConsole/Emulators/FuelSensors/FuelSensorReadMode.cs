@@ -138,5 +138,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "DUT Fuel sensor read mode (Read filtred values)";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

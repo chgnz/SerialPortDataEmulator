@@ -46,6 +46,8 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             this.Timestamp = GetTimestamp();
         }
 
+        static int netw = 1;
+
         bool Send()
         {
             int net_weigth = (ushort)(new Random().Next(0, 20000) & 0xffff);
@@ -54,6 +56,8 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             int axle2_weight = 2222;
             int axle3_weight = -3333;
             int axle4_weight = 4444;
+
+            net_weigth = netw++;
 
             string format = "+00000;-00000";
             string net_weigth_str = net_weigth.ToString(format);
@@ -106,6 +110,11 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             checksum = checksum & 0xffff;
             return checksum;
+        }
+
+        public void DeInit()
+        {
+            this.Port.Close();
         }
     }
 }

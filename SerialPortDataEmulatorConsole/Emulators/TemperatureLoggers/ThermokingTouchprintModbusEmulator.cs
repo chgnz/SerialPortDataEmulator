@@ -168,5 +168,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return ModbusCRC.IsValidCRC(data_packet);
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

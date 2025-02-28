@@ -123,5 +123,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return $"Piusi protocol, sending messages with {GetTxInterval()} ms intervals @ {GetBaudrate()} baud";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

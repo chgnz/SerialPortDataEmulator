@@ -186,5 +186,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "Lumikko (Request-Response protocol @ baudrate 9600)";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

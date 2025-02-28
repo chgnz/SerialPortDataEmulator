@@ -88,5 +88,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "set Menu entry which will be displayed on app startup";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

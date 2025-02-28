@@ -145,5 +145,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return $"Drager, Transmit single Dignita event message with {TX_INTERVAL_MS} ms intervals";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

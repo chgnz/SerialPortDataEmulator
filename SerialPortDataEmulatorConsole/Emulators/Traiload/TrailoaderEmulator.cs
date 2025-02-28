@@ -110,5 +110,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
             return true;
         }
 
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
+
     }
 }

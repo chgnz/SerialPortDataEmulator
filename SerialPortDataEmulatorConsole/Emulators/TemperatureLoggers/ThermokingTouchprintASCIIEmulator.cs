@@ -147,5 +147,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "Thermoking Touchprint (Request-Response ASCII protocol @ baudrate 9600)";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

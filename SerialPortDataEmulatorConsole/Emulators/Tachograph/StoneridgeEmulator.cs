@@ -85,6 +85,11 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "Stoneridge SRE(automatically transmits SRE data each 500ms @ baudrate 1200)";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 
 }

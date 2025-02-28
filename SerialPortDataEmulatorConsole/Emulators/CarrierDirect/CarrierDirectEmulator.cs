@@ -68,6 +68,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             if (data_without_crc == null)
             {
+                Console.WriteLine("no response generated");
                 return;
             }
 
@@ -125,6 +126,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
                     // alarms
                     return new byte[] { 0x86, 0x03, 0x82, 0xaa, 0x63, 0x01, 0x00};
 
+                case 0x18:
+                    // pretrip, nav reāli dati!!
+                    return new byte[] { 0x86, 0x03, 0x98, 0xaa, 0x63, 0x05, 0x55, 0x55, 0x55, 0x55, 0x55 };
+
 
 
 
@@ -173,6 +178,11 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         public string GetMenuString()
         {
             return "Carrier Direct (Request-Response protocol @ baudrate 9600)";
+        }
+
+        public void DeInit()
+        {
+            this.Port.Close();
         }
     }
 }

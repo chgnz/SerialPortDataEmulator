@@ -90,5 +90,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return $"Emulate VEI protocol by sending messages, with {GetTxInterval()} ms intervals @ {GetBaudrate()} baud";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

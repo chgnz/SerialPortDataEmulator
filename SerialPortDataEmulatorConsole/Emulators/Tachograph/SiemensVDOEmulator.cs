@@ -85,5 +85,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "Siemens VDO (automatically transmits VDO data each 1000ms @ baudrate 10400)";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

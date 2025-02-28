@@ -220,6 +220,11 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "DUT FuelSensor (Request-Response protocol @ baudrate 19200), implemented commands: 0x02, 0x06, 0x1c, 0x23";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 
     public class EpsilonESEmulator : DUTEmulator, IFuelSensorEmulator

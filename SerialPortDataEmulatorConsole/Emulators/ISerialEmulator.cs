@@ -6,6 +6,7 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
     {
         void Init(SerialPort port);
         void Trigger();
+        void DeInit();
         string GetMenuString();
     }
 

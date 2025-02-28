@@ -54,8 +54,7 @@ namespace SerialPortDataEmulatorConsole
                 {
                     if (Console.ReadKey().Key == ConsoleKey.Escape)
                     {
-                        Console.WriteLine("Esc pressed, close app");
-                        Thread.Sleep(2000);
+                        Console.WriteLine("Esc pressed, stopping transmit");
                         break;
                     }
 
@@ -72,6 +71,18 @@ namespace SerialPortDataEmulatorConsole
                 emulator.Trigger();
                 Thread.Sleep(1);
             }
+
+            Console.WriteLine("Press Esc to exit app, or any other key to return to main menu");
+            emulator.DeInit();
+            var key_pressed = Console.ReadKey();
+
+            if (key_pressed.Key != ConsoleKey.Escape)
+            {
+                // noreturn
+                Main(args);
+            }
+
+            Console.WriteLine("Esc pressed, Close app");
         }
 
         static public void DisplayMenu(string MenuText)

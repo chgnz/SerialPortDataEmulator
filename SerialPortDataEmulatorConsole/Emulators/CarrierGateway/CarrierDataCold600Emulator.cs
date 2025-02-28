@@ -149,5 +149,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
         {
             return "Carrier DataCold600 (Request-Response protocol @ baudrate 38400)";
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }

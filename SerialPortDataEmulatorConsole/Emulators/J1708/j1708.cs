@@ -159,5 +159,10 @@ namespace SerialPortDataEmulatorConsole.SerialProtocols
 
             return (byte)(checksum & 0xff);
         }
+
+        public void DeInit()
+        {
+            this.Port.Close();
+        }
     }
 }
